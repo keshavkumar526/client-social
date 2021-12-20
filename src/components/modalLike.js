@@ -21,15 +21,6 @@ function MyModal({ isOpen, toggleModal, LikedUsers }) {
         </Modal.Footer>
       </Modal>
     </div>
-    // <div className="modalll">
-    //   {props.LikedUsers.map((u) => (
-    //     <ul className="likeUnorderedList" >
-    //       <li className="likeList">
-    //         <p className="likeUsername">{u.username} liked this post</p>
-    //       </li>
-    //     </ul>
-    //   ))}
-    // </div>
   );
 }
 export default MyModal;

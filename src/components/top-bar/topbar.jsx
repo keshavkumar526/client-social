@@ -4,7 +4,7 @@ import { Person, Chat, Notifications, Search } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 
-export default function Topbar({ socket }) {
+export default function Topbar() {
   const { user } = useContext(AuthContext);
 
   return (

@@ -131,13 +131,13 @@ export default function Post({ post }) {
         <div className="postBottom">
           <div className="postBottomLeft">
             <img
-              src="/assets/heart.png"
+              src="/assets/person/noAvatar.png"
               alt=""
               onClick={likeHandler}
               className="postLikeIcon"
             />
             <img
-              src="/assets/like.png"
+              src="/assets/person/noAvatar.png"
               alt=""
               onClick={() => likeHandler(post._id)}
               className="postLikeIcon"

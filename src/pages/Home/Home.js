@@ -5,21 +5,7 @@ import Sidebar from "../../components/side-bar/sidebar";
 import "./Home.css";
 
 function Home() {
-  // const [notifications, setNotifications] = useState([]);
 
-  // const socket = useRef();
-
-  // useEffect(() => {
-  //   socket.current = io("http://localhost:5000");
-  //   socket.current.on("getNotification", (data) => {
-  //     setNotifications(data);
-  //   });
-  // }, []);
-  // console.log(notifications);
-
-  // useEffect(() => {
-  //   socket.current.emit("newUser", user);
-  // }, [socket, user]);
 
   return (
     <>

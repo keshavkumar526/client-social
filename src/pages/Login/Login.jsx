@@ -8,11 +8,9 @@ export default function Login() {
   const email = useRef();
   const password = useRef();
   const { dispatch } = useContext(AuthContext);
-  console.log(process.env.REACT_APP_API_URL)
 
   const handleClick = async (e) => {
     e.preventDefault();
-    console.log("env",process.env.REACT_APP_API_URL)
 
     dispatch({ type: "LOGIN_START" });
     try {
