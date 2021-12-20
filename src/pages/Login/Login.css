@@ -112,6 +112,14 @@
 .LoginButton:hover:before {
     opacity: 1;
 }
+.errorText{
+  padding-top: 5px;
+  margin-left: 160px;
+  font-size: 25px;
+  font-weight: 700;
+  color:#ff7300;
+  text-decoration: underline;
+}
 
 .LoginButton:after {
     z-index: -1;

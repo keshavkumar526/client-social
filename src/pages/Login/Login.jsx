@@ -3,11 +3,14 @@ import axios from "axios";
 import { useContext, useRef } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import { useEffect } from "react";
 
 export default function Login() {
   const email = useRef();
   const password = useRef();
   const { dispatch } = useContext(AuthContext);
+  const [errMsg, setErrMsg] = useState("");
 
   const handleClick = async (e) => {
     e.preventDefault();
@@ -22,8 +25,19 @@ export default function Login() {
       sessionStorage.setItem("user", JSON.stringify(res.data));
     } catch (err) {
       dispatch({ type: "LOGIN_FAILURE", payload: err });
+      setErrMsg(err.response?.data);
     }
-  }
+  };
+
+  useEffect(() => {
+    const ErrorHandler = () => {
+      if (errMsg) {
+        return { errMsg };
+      }
+      setErrMsg("");
+    };
+    ErrorHandler();
+  }, [errMsg]);
 
   return (
     <div className="Login">
@@ -58,6 +72,7 @@ export default function Login() {
           </span>
         </div>
         <div className="LoginRight">
+          <h4 className="errorText">{errMsg}</h4>
           <form className="LoginBox" onSubmit={handleClick}>
             <input
               placeholder="Email"

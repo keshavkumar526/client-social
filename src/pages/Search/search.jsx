@@ -12,19 +12,7 @@ export default function Search() {
   const [search, setSearch] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [data, setData] = useState([]);
-  const [User, setUser] = useState(false);
-  const username = useParams().username;
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      const res = await axios.get(
-        process.env.REACT_APP_API_URL + `/users?username=${username}`
-      );
-      setUser(res.data);
-    };
-    fetchUser();
-    console.log(User);
-  }, [User,username]);
 
   const changeSearch = async (e) => {
     if (e.target.value === "") {
@@ -38,7 +26,6 @@ export default function Search() {
         }
       );
       setData(response.data);
-      console.log(data);
       setShowModal(!showModal);
     }
   };

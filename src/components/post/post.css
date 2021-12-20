@@ -130,6 +130,17 @@
 .viewLikesButton:hover:before {
     opacity: 1;
 }
+.star-container {
+    color: red;
+    font-size: 30px;
+  }
+  .commentInput{
+      width: 250px;
+      border: 1px solid rgb(173, 201, 15);
+      color: red;
+      font-size: 15px;
+      border-radius: 5px;
+  }
 
 .viewLikesButton:after {
     z-index: -1;

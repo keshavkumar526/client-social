@@ -5,13 +5,11 @@ function MyModal({ isOpen, toggleModal, LikedUsers }) {
     <div>
       <Modal show={isOpen} onHide={toggleModal} animation={false}>
         <Modal.Header>
-          <Modal.Title>Comments</Modal.Title>
+          <Modal.Title>Likes</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {LikedUsers.map((u) => (
-            <li>
-              <p>{u.username} liked this post</p>
-            </li>
+            <h5><b style={{color:"#eb5542"}}>{u.username}</b> liked this post <hr /></h5>
           ))}
         </Modal.Body>
         <Modal.Footer>

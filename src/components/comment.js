@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { format } from "timeago.js";
 
 export default Comment = ({ comment }) => {
   const [user, setUser] = useState("");
@@ -17,15 +18,15 @@ export default Comment = ({ comment }) => {
     getUser();
   }, [comment]);
 
-  console.log(comment)
   return (
     <div>
-      <ul>
-        <li>
-          <h1>{user.username}</h1>
-          <p>{comment.text}</p>
-        </li>
-      </ul>
+      <p style={{ fontSize: "20px" }}>
+        <b style={{ color: "#eb5542", fontWeight: "1000" }}>{user.username}</b>{" "}
+        commented on your post <b>AS</b>:
+        <b style={{ color: "#d47e1c", marginLeft: "35px" ,textDecoration:"underline"}}>{comment.text}</b>
+        <p style={{marginLeft:"35px" , fontSize:"19px",marginTop:"3px"}}>{format(comment.createdAt)}</p>
+      </p>
+      <hr style={{ color: "red" }} />
     </div>
   );
 };

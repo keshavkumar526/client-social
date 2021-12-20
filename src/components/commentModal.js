@@ -24,7 +24,7 @@ function MyCommentModal({ post, toggleModal, isOpen }) {
     if (isOpen) {
       MyCommentModalHandler();
     }
-  }, [isOpen]);
+  }, [isOpen,post._id]);
 
   return (
     <div>

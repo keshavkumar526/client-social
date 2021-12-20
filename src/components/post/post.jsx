@@ -1,10 +1,12 @@
 import "./post.css";
 import { MoreVert } from "@mui/icons-material";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import InsertCommentIcon from '@mui/icons-material/InsertComment';
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { format } from "timeago.js";
 import { Link } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css"
+import "bootstrap/dist/css/bootstrap.min.css";
 import { AuthContext } from "../../context/AuthContext";
 import MyModal from "../modalLike";
 import MyCommentModal from "../commentModal";
@@ -16,13 +18,10 @@ export default function Post({ post }) {
   const { user: username } = useContext(AuthContext);
   const [isDelete, setIsDelete] = useState(false);
   const [likedUser, setLikedUser] = useState([]);
-  const [showModal, setShowModal] = useState(false);
   const [postComment, setPostComment] = useState("");
-  const [toggle, setToggle] = useState(false)
-  const [toggleLike, setToggleLike] = useState(false)
-  const [showMyCommentModal, setShowMyCommentModal] = useState(false);
+  const [toggle, setToggle] = useState(false);
+  const [toggleLike, setToggleLike] = useState(false);
   const [showCommentForm, setShowCommentForm] = useState(false);
-  const [backendComment, setBackendComment] = useState([]);
 
   useEffect(() => {
     setIsLiked(post.likes.includes(username._id));
@@ -40,18 +39,19 @@ export default function Post({ post }) {
 
   const toggleModal = () => {
     setToggle(!toggle);
-  }
+  };
   const toggleLikeModal = () => {
     setToggleLike(!toggleLike);
-  }
+  };
 
   const commentModalHandler = async (e) => {
-    e.preventDefault()
-    console.log(username)
-    const response = await axios.put(
+    e.preventDefault();
+    console.log(username);
+     await axios.put(
       process.env.REACT_APP_API_URL + "/comments/" + post._id + "/comment",
-      { comment: postComment, userId: username?._id });
-      setPostComment("")
+      { comment: postComment, userId: username?._id }
+    );
+    setPostComment("");
   };
 
   const inputForm = (e) => {
@@ -92,8 +92,6 @@ export default function Post({ post }) {
     }
   };
 
-
-
   return (
     <div className="post">
       <div className="postWrapper">
@@ -130,18 +128,9 @@ export default function Post({ post }) {
         </div>
         <div className="postBottom">
           <div className="postBottomLeft">
-            <img
-              src="/assets/person/noAvatar.png"
-              alt=""
-              onClick={likeHandler}
-              className="postLikeIcon"
-            />
-            <img
-              src="/assets/person/noAvatar.png"
-              alt=""
-              onClick={() => likeHandler(post._id)}
-              className="postLikeIcon"
-            />
+            <div className="star-container">
+              <FavoriteBorderIcon style={{fill: "red"}} size="2em" fontSize="inherit" onClick={() => likeHandler(post._id)} />
+            </div>
             <span className="postLikeCounter">{like} likes </span>
             <button className="viewLikesButton" onClick={toggleLikeModal}>
               View Likes
@@ -149,20 +138,28 @@ export default function Post({ post }) {
             <button className="viewLikesButton" onClick={toggleModal}>
               ViewComments
             </button>
-            <MyModal isOpen={toggleLike} toggleModal={toggleLikeModal} LikedUsers={likedUser} />
-            <MyCommentModal isOpen={toggle} toggleModal={toggleModal} post={post} />
+            <MyModal
+              isOpen={toggleLike}
+              toggleModal={toggleLikeModal}
+              LikedUsers={likedUser}
+            />
+            <MyCommentModal
+              isOpen={toggle}
+              toggleModal={toggleModal}
+              post={post}
+            />
           </div>
           <div className="postBottomRight">
             <button
               className="postCommentButton"
               onClick={() => setShowCommentForm(!showCommentForm)}
             >
-              comments
+              <InsertCommentIcon style={{outline: "none"}} />
             </button>
             {showCommentForm && (
               <form onSubmit={commentModalHandler}>
                 <input
-                  placeholder="type your Comment"
+                  placeholder="Wlcm!type your Comment"
                   type="text"
                   value={postComment}
                   onChange={inputForm}
