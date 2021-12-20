@@ -1,0 +1,19 @@
+.SearchModal {
+    background-color: rgb(229, 235, 235);
+    -moz-box-shadow: 0 0 200px #ccc;
+    -webkit-box-shadow: 0 0 200px #ccc;
+    box-shadow: 0 0 200px #ccc;
+    border-radius: 3px;
+    display: flex;
+    flex-direction: column;
+    z-index: 2;
+
+}
+.SearchBelow{
+    padding: 12px;
+    margin-bottom: 8px;
+}
+.postUsername{
+    font-size: 20px;
+    text-shadow:  2px 2px 5px orange;
+}
