@@ -1,21 +1,36 @@
 import "./share.css";
-import { PermMedia, Label, Room, EmojiEmotions, Cancel } from "@mui/icons-material";
-import { useContext, useRef, useState } from "react";
+import {
+  PermMedia,
+  Label,
+  Room,
+  EmojiEmotions,
+  Cancel,
+} from "@mui/icons-material";
+import { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 
 export default function Share() {
   const { user } = useContext(AuthContext);
   const [file, setFile] = useState(null);
+  const [showShare, setShowShare] = useState(false);
   const desc = useRef();
-  
+
+  useEffect(() => {
+    const shareHandler = () => {
+      if (file) {
+        setShowShare(true);
+      }
+    };
+    shareHandler()
+  }, [file]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
     const NewPost = {
       userId: user._id,
       desc: desc.current.value,
-      img:""
+      img: "",
     };
     if (file) {
       const data = new FormData();
@@ -44,7 +59,7 @@ export default function Share() {
       <div className="shareWrapper">
         <div className="shareTop">
           <img
-            src={ user?.profilePicture || "/assets/person/noAvatar.png"}
+            src={user?.profilePicture || "/assets/person/noAvatar.png"}
             alt=""
             className="shareProfileImg"
           />
@@ -58,7 +73,7 @@ export default function Share() {
         {file && (
           <div className="shareImgContainer">
             <img src={URL.createObjectURL(file)} alt="" className="shareImg" />
-            <Cancel className="shareCancel" onClick={()=> setFile(null)}  />
+            <Cancel className="shareCancel" onClick={() => setFile(null)} />
           </div>
         )}
         <form className="shareBottom" onSubmit={submitHandler}>
@@ -90,9 +105,15 @@ export default function Share() {
               <span className="shareOptionText">Feelings</span>
             </div>
           </div>
-          <button type="submit" className="shareButton">
-            Share
-          </button>
+          {showShare ? (
+            <button type="submit" className="shareButton">
+              Share
+            </button>
+          ) : (
+            <button type="submit" disabled className="shareButton">
+              Share
+            </button>
+          )}
         </form>
       </div>
     </div>

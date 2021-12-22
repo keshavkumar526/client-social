@@ -142,6 +142,7 @@ export default function Post({ post }) {
               isOpen={toggleLike}
               toggleModal={toggleLikeModal}
               LikedUsers={likedUser}
+              Post ={post}
             />
             <MyCommentModal
               isOpen={toggle}

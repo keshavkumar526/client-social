@@ -24,7 +24,7 @@ export default Comment = ({ comment }) => {
         <b style={{ color: "#eb5542", fontWeight: "1000" }}>{user.username}</b>{" "}
         commented on your post <b>AS</b>:
         <b style={{ color: "#d47e1c", marginLeft: "35px" ,textDecoration:"underline"}}>{comment.text}</b>
-        <p style={{marginLeft:"35px" , fontSize:"19px",marginTop:"3px"}}>{format(comment.createdAt)}</p>
+        <p style={{marginLeft:"35px" ,color:"red", fontSize:"19px",marginTop:"3px"}}>{format(comment.createdAt)}</p>
       </p>
       <hr style={{ color: "red" }} />
     </div>

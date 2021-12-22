@@ -1,8 +1,7 @@
 import { MoreVert } from "@mui/icons-material";
-import "./dummyFeed.css";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import InsertCommentIcon from "@mui/icons-material/InsertComment";
-import "../post/post.css"
+
 
 const DummyFeed = ({profilePic,username,desc,post,date,comment,like}) => {
   return (
