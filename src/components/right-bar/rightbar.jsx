@@ -57,6 +57,7 @@ export default function RightBar({ user }) {
   };
   const LogOutHandler = () => {
     sessionStorage.removeItem("user");
+    window.location.replace("/login")
   };
 
   const ShowUpdateComponent = () => {

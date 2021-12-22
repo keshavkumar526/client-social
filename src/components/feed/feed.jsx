@@ -4,6 +4,8 @@ import Share from "../share/share";
 import axios from "axios";
 import Post from "../post/post";
 import { AuthContext } from "../../context/AuthContext";
+import DummyFeed from "../dummyFeed/dummyFeeed";
+import { Users } from "../../dummyData";
 
 export default function Feed({ username }) {
   const [posts, setPosts] = useState([]);
@@ -29,6 +31,19 @@ export default function Feed({ username }) {
 
       {posts.map((p) => (
         <Post key={p.id} post={p} />
+      ))}
+      
+      {Users.map((u) => (
+        <DummyFeed
+          key={u.id}
+          profilePic={u.profilePicture}
+          username={u.username}
+          desc={u.desc}
+          post={u.photo}
+          date= {u.date}
+          comment={u.comment}
+          like={u.like}
+        />
       ))}
     </div>
   );
