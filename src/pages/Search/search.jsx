@@ -1,10 +1,9 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
 import { Person, Chat, Notifications, Cancel } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import "./search.css";
-import { useParams } from "react-router";
 import MySearchModal from "../../components/modal/modal";
 
 export default function Search() {
@@ -12,7 +11,6 @@ export default function Search() {
   const [search, setSearch] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [data, setData] = useState([]);
-
 
   const changeSearch = async (e) => {
     if (e.target.value === "") {
@@ -31,6 +29,26 @@ export default function Search() {
   };
   const handleModal = () => {
     setShowModal(false);
+  };
+
+  const getProfilePic = () => {
+    if (user.profilePicture === "") {
+      return "/assets/person/noAvatar.png";
+    } else {
+      return (
+        process.env.REACT_APP_IMAGES_URL + "/images/post/" + user.profilePicture
+      );
+    }
+  };
+
+  const getSearchProfilePic = (d) => {
+    if (d.profilePicture === "") {
+      return "/assets/person/noAvatar.png";
+    } else {
+      return (
+        process.env.REACT_APP_IMAGES_URL + "/images/post/" + d.profilePicture
+      );
+    }
   };
 
   return (
@@ -80,11 +98,7 @@ export default function Search() {
           </div>
           {user && (
             <Link to={"/profile/" + user.username}>
-              <img
-                src={user.profilePicture || "/assets/person/noAvatar.png"}
-                alt=""
-                className="topbarImg"
-              />
+              <img src={getProfilePic()} alt="" className="topbarImg" />
             </Link>
           )}
         </div>
@@ -92,7 +106,7 @@ export default function Search() {
       <div className="searchBottom">
         {data.map((d) => (
           <MySearchModal
-            profilePicture={d.profilePicture}
+            profilePicture={getSearchProfilePic(d)}
             username={d.username}
             setIsShow={setShowModal}
             isShow={showModal}

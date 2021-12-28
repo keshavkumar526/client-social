@@ -5,13 +5,14 @@ import { Users } from "../../dummyData";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
-import { Add, Remove } from "@mui/icons-material";
+import { Add, Remove, PermMedia } from "@mui/icons-material";
 import { useRef } from "react";
 
 export default function RightBar({ user }) {
   const [friends, setFriends] = useState([]);
   const { user: curruntUser, dispatch } = useContext(AuthContext);
   const [isUpdate, setIsUpdate] = useState(false);
+  const [profilePic, setProfilePic] = useState("");
 
   const City = useRef();
   const From = useRef();
@@ -25,7 +26,9 @@ export default function RightBar({ user }) {
   useEffect(() => {
     const getFriends = async () => {
       try {
-        const friendsList = await axios.get(process.env.REACT_APP_API_URL + "/users/getUser/" + user._id);
+        const friendsList = await axios.get(
+          process.env.REACT_APP_API_URL + "/users/getUser/" + user._id
+        );
         setFriends(friendsList.data);
       } catch (err) {
         console.log(err);
@@ -39,14 +42,20 @@ export default function RightBar({ user }) {
   const followHandler = async () => {
     try {
       if (followed) {
-        await axios.put(process.env.REACT_APP_API_URL + "/users/" + user._id + "/unfollow", {
-          userId: curruntUser._id,
-        });
+        await axios.put(
+          process.env.REACT_APP_API_URL + "/users/" + user._id + "/unfollow",
+          {
+            userId: curruntUser._id,
+          }
+        );
         dispatch({ type: "UNFOLLOW", payload: user._id });
       } else {
-        await axios.put(process.env.REACT_APP_API_URL + "/users/" + user._id + "/follow", {
-          userId: curruntUser._id,
-        });
+        await axios.put(
+          process.env.REACT_APP_API_URL + "/users/" + user._id + "/follow",
+          {
+            userId: curruntUser._id,
+          }
+        );
         dispatch({ type: "FOLLOW", payload: user._id });
         setFollowed(!followed);
       }
@@ -57,7 +66,7 @@ export default function RightBar({ user }) {
   };
   const LogOutHandler = () => {
     sessionStorage.removeItem("user");
-    window.location.replace("/login")
+    window.location.replace("/login");
   };
 
   const ShowUpdateComponent = () => {
@@ -80,12 +89,47 @@ export default function RightBar({ user }) {
     setIsUpdate(!isUpdate);
   };
 
+  const profileHandler = async (e) => {
+    e.preventDefault();
+    if (profilePic) {
+      const profilePicData = new FormData();
+      const profilePicName = profilePic.name;
+      profilePicData.append("profilePic", profilePic);
+      profilePicData.append("profilePicName", profilePicName);
+      try {
+        await axios.post(
+          process.env.REACT_APP_API_URL + "/uploadProfilePic",
+          profilePicData
+        );
+      } catch (err) {
+        console.log(err);
+      }
+      await axios.put(
+        process.env.REACT_APP_API_URL + "/users/changeProfilePic/" + user._id,
+        { pfName: profilePicName }
+      );
+      setProfilePic(null);
+    }
+  };
+
+  const getProfilePic = (friend) => {
+    if (friend.profilePicture === "") {
+      return "/assets/person/noAvatar.png";
+    } else {
+      return (
+        process.env.REACT_APP_IMAGES_URL +
+        "/images/post/" +
+        friend.profilePicture
+      );
+    }
+  };
+
   const HomeRightBar = () => {
     return (
       <>
         <div className="birthdayContainer">
           <img
-            src={process.env.REACT_APP_IMAGES_URL +"/images/post/gift.png"}
+            src={process.env.REACT_APP_IMAGES_URL + "/images/post/gift.png"}
             alt=""
             className="birthdayImg"
           />
@@ -94,7 +138,7 @@ export default function RightBar({ user }) {
           </span>
         </div>
         <img
-          src={process.env.REACT_APP_IMAGES_URL +"/images/post/ad.png"}
+          src={process.env.REACT_APP_IMAGES_URL + "/images/post/ad.png"}
           alt=""
           className="rightBarAdd"
         />
@@ -181,6 +225,22 @@ export default function RightBar({ user }) {
                   </button>
                 </form>
               )}
+              <div className="pfContainer">
+                <label htmlFor="file">
+                  <PermMedia htmlColor="tomato" className="shareOptionIcon" />
+                  <span className="changeText">Choose photo</span>
+                  <input
+                    type="file"
+                    id="file"
+                    style={{ display: "none" }}
+                    accept=".png,.jpg,.jpeg"
+                    onChange={(e) => setProfilePic(e.target.files[0])}
+                  />
+                  <button className="changeButton" onClick={profileHandler}>
+                    Change Profile Pic
+                  </button>
+                </label>
+              </div>
             </div>
           )}
         </div>
@@ -193,7 +253,7 @@ export default function RightBar({ user }) {
                 style={{ textDecoration: "none" }}
               >
                 <img
-                  src={friend.profilePicture || "/assets/person/noAvatar.png"}
+                  src={getProfilePic(friend)}
                   alt=""
                   className="RightBarFollowingImg"
                 />

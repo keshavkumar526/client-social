@@ -22,7 +22,7 @@ export default function Share() {
         setShowShare(true);
       }
     };
-    shareHandler()
+    shareHandler();
   }, [file]);
 
   const submitHandler = async (e) => {
@@ -54,15 +54,22 @@ export default function Share() {
     }
   };
 
+  const getProfilePic = () => {
+    console.log(user.profilePicture);
+    if (user.profilePicture === "") {
+      return "/assets/person/noAvatar.png";
+    } else {
+      return (
+        process.env.REACT_APP_IMAGES_URL + "/images/post/" + user.profilePicture
+      );
+    }
+  };
+
   return (
     <div className="share">
       <div className="shareWrapper">
         <div className="shareTop">
-          <img
-            src={user?.profilePicture || "/assets/person/noAvatar.png"}
-            alt=""
-            className="shareProfileImg"
-          />
+          <img src={getProfilePic()} alt="" className="shareProfileImg" />
           <input
             placeholder={"What's In your Mind  " + user.username + "?"}
             className="shareInput"

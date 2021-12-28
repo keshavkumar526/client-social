@@ -7,6 +7,17 @@ import { AuthContext } from "../../context/AuthContext";
 export default function Topbar() {
   const { user } = useContext(AuthContext);
 
+  const getProfilePic = () => {
+    console.log(user.profilePicture);
+    if (user.profilePicture === "") {
+      return "/assets/person/noAvatar.png";
+    } else {
+      return (
+        process.env.REACT_APP_IMAGES_URL + "/images/post/" + user.profilePicture
+      );
+    }
+  };
+
   return (
     <div>
       <div className="topbarContainer">
@@ -17,7 +28,7 @@ export default function Topbar() {
         </div>
         <div className="topbarCenter">
           <div className="searchbar">
-            <Link to= {"/search/" + user.username}>
+            <Link to={"/search/" + user.username}>
               <button className="SearchButton">
                 <Search />
                 {user.username},Search for Users worldwide!
@@ -48,11 +59,7 @@ export default function Topbar() {
           </div>
           {user && (
             <Link to={"/profile/" + user.username}>
-              <img
-                src={user.profilePicture || "/assets/person/noAvatar.png"}
-                alt=""
-                className="topbarImg"
-              />
+              <img src={getProfilePic()} alt="" className="topbarImg" />
             </Link>
           )}
         </div>

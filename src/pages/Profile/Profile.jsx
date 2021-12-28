@@ -11,14 +11,26 @@ export default function Profile() {
   const [user, setUser] = useState(false);
   const username = useParams().username;
 
-
   useEffect(() => {
     const fetchUser = async () => {
-      const res = await axios.get(process.env.REACT_APP_API_URL + `/users?username=${username}`);
+      const res = await axios.get(
+        process.env.REACT_APP_API_URL + `/users?username=${username}`
+      );
       setUser(res.data);
     };
     fetchUser();
   }, [username]);
+
+  const getProfilePic = () => {
+    console.log(user.profilePicture);
+    if (user.profilePicture === "") {
+      return "/assets/person/noAvatar.png";
+    } else {
+      return (
+        process.env.REACT_APP_IMAGES_URL + "/images/post/" + user.profilePicture
+      );
+    }
+  };
 
   return (
     <>
@@ -33,11 +45,7 @@ export default function Profile() {
                 alt=""
                 className="ProfileCoverImg"
               />
-              <img
-                src={user.profilePicture || "/assets/person/noAvatar.png"}
-                alt=""
-                className="ProfileImg"
-              />
+              <img src={getProfilePic()} alt="" className="ProfileImg" />
             </div>
             <div className="ProfileInfo">
               <h4 className="ProfileUsername">{user.username}</h4>

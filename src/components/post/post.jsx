@@ -1,7 +1,7 @@
 import "./post.css";
 import { MoreVert } from "@mui/icons-material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import InsertCommentIcon from '@mui/icons-material/InsertComment';
+import InsertCommentIcon from "@mui/icons-material/InsertComment";
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { format } from "timeago.js";
@@ -47,7 +47,7 @@ export default function Post({ post }) {
   const commentModalHandler = async (e) => {
     e.preventDefault();
     console.log(username);
-     await axios.put(
+    await axios.put(
       process.env.REACT_APP_API_URL + "/comments/" + post._id + "/comment",
       { comment: postComment, userId: username?._id }
     );
@@ -92,17 +92,24 @@ export default function Post({ post }) {
     }
   };
 
+  const getProfilePic = () => {
+    console.log(user.profilePicture);
+    if (user.profilePicture === "") {
+      return "/assets/person/noAvatar.png";
+    } else {
+      return (
+        process.env.REACT_APP_IMAGES_URL + "/images/post/" + user.profilePicture
+      );
+    }
+  };
+
   return (
     <div className="post">
       <div className="postWrapper">
         <div className="postTop">
           <div className="postTopLeft">
             <Link to={"/profile/" + user.username}>
-              <img
-                src={user.profilePicture || "/assets/person/noAvatar.png"}
-                alt=""
-                className="postProfileImg"
-              />
+              <img src={getProfilePic()} alt="" className="postProfileImg" />
             </Link>
             <span className="postUsername">{user.username}</span>
             <span className="postDate">{format(post.createdAt)}</span>
@@ -129,7 +136,12 @@ export default function Post({ post }) {
         <div className="postBottom">
           <div className="postBottomLeft">
             <div className="star-container">
-              <FavoriteBorderIcon style={{fill: "red"}} size="2em" fontSize="inherit" onClick={() => likeHandler(post._id)} />
+              <FavoriteBorderIcon
+                style={{ fill: "red" }}
+                size="2em"
+                fontSize="inherit"
+                onClick={() => likeHandler(post._id)}
+              />
             </div>
             <span className="postLikeCounter">{like} likes </span>
             <button className="viewLikesButton" onClick={toggleLikeModal}>
@@ -142,7 +154,7 @@ export default function Post({ post }) {
               isOpen={toggleLike}
               toggleModal={toggleLikeModal}
               LikedUsers={likedUser}
-              Post ={post}
+              Post={post}
             />
             <MyCommentModal
               isOpen={toggle}
@@ -155,7 +167,7 @@ export default function Post({ post }) {
               className="postCommentButton"
               onClick={() => setShowCommentForm(!showCommentForm)}
             >
-              <InsertCommentIcon style={{outline: "none"}} />
+              <InsertCommentIcon style={{ outline: "none" }} />
             </button>
             {showCommentForm && (
               <form onSubmit={commentModalHandler}>
