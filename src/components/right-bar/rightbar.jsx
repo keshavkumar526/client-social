@@ -108,6 +108,7 @@ export default function RightBar({ user }) {
         process.env.REACT_APP_API_URL + "/users/changeProfilePic/" + user._id,
         { pfName: profilePicName }
       );
+      window.location.reload()
       setProfilePic(null);
     }
   };
@@ -227,7 +228,6 @@ export default function RightBar({ user }) {
               )}
               <div className="pfContainer">
                 <label htmlFor="file">
-                  <PermMedia htmlColor="tomato" className="shareOptionIcon" />
                   <span className="changeText">Choose photo</span>
                   <input
                     type="file"
