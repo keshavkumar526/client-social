@@ -227,11 +227,11 @@ export default function RightBar({ user }) {
                 </form>
               )}
               <div className="pfContainer">
-                <label htmlFor="file">
+                <label htmlFor="fileee">
                   <span className="changeText">Choose photo</span>
                   <input
                     type="file"
-                    id="file"
+                    id="fileee"
                     style={{ display: "none" }}
                     accept=".png,.jpg,.jpeg"
                     onChange={(e) => setProfilePic(e.target.files[0])}
