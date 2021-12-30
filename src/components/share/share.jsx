@@ -55,7 +55,6 @@ export default function Share() {
   };
 
   const getProfilePic = () => {
-    console.log(user.profilePicture);
     if (user.profilePicture === "") {
       return "/assets/person/noAvatar.png";
     } else {

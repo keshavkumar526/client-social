@@ -46,7 +46,6 @@ export default function Post({ post }) {
 
   const commentModalHandler = async (e) => {
     e.preventDefault();
-    console.log(username);
     await axios.put(
       process.env.REACT_APP_API_URL + "/comments/" + post._id + "/comment",
       { comment: postComment, userId: username?._id }
@@ -93,7 +92,6 @@ export default function Post({ post }) {
   };
 
   const getProfilePic = () => {
-    console.log(user.profilePicture);
     if (user.profilePicture === "") {
       return "/assets/person/noAvatar.png";
     } else {

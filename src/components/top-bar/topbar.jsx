@@ -8,7 +8,6 @@ export default function Topbar() {
   const { user } = useContext(AuthContext);
 
   const getProfilePic = () => {
-    console.log(user.profilePicture);
     if (user.profilePicture === "") {
       return "/assets/person/noAvatar.png";
     } else {
