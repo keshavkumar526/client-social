@@ -280,3 +280,38 @@
     font-size: 20px;
     font-weight: 700;
 }
+
+@media only screen and (max-width: 800px) {
+    .rightBar{
+        flex: 1;
+        position:absolute;
+    }
+    .pftop{
+        padding-top: 17rem;
+    }
+    .RightBarInfoItem{
+        margin-left: 2rem;
+    }
+    .RightBarTitle{
+        margin-left: 5rem;
+        padding-bottom: 1rem;
+    }
+    .userLogOutButton{
+        margin-left: 4rem;
+    }
+    .pfContainer{
+        margin-left: 4rem;
+    }
+    .birthdayContainer{
+        display: none;
+    }
+    .rightBarAdd{
+        display: none;
+    }
+    .rightBartitle{
+        display: none;
+    }
+    .rightBarFriendsList{
+        display: none;
+    }
+  }

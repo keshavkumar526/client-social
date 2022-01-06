@@ -97,7 +97,7 @@ export default function Share() {
             </label>
             <div className="shareOption">
               <Label htmlColor="blue" className="shareOptionIcon" />
-              <span className="shareOptionText">Tag</span>
+              <span className="shareOptionText p">Tag</span>
             </div>
             <div className="shareOption">
               <Room htmlColor="green" className="shareOptionIcon" />

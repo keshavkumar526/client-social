@@ -80,7 +80,7 @@ export default function Register() {
               type="password"
               className="LoginInput"
             />
-            <button className="LoginButton" type="submit">
+            <button className="LoginButton s" type="submit">
               Sign Up
             </button>
             <Link to="/login">

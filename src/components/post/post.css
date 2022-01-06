@@ -160,3 +160,19 @@
     50% { background-position: 400% 0; }
     100% { background-position: 0 0; }
 }
+
+@media only screen and (max-width: 800px) {
+    .post{
+        width: 100%;
+    }
+    .postBottomLeft{
+        align-items:flex-start;
+    }
+    .viewLikesButton{
+        margin-left: 1px;
+        width: 100px;
+    }
+    .postCommentButton{
+        margin-left: 2px;
+    }
+  }

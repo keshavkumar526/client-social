@@ -1,3 +1,8 @@
 .Feed{
     flex: 5;
 }
+@media only screen and (max-width: 800px) {
+    .Feedddd{
+        padding-top: 60rem;
+    }
+  }

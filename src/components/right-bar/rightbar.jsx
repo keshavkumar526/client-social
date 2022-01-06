@@ -154,7 +154,7 @@ export default function RightBar({ user }) {
   };
   const ProfileRightBar = () => {
     return (
-      <>
+      <div className="pftop">
         {user.username !== curruntUser.username && (
           <button className="rightBarFollowButton" onClick={followHandler}>
             {followed ? "Unfollow" : "Follow"}
@@ -262,7 +262,7 @@ export default function RightBar({ user }) {
             </div>
           ))}
         </div>
-      </>
+      </div>
     );
   };
   return (

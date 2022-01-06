@@ -43,3 +43,17 @@
 .ProfileRightBottom{
     display: flex;
 }
+@media only screen and (max-width: 800px) {
+    .ProfileRight{
+        flex: 2;
+    }
+    /* .ProfileCover{
+        position:static;
+    }
+    .ProfileInfo{
+        position: static;
+    }
+    .ProfileRightBottom{
+       
+    } */
+  }

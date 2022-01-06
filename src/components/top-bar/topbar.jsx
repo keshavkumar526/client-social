@@ -29,7 +29,6 @@ export default function Topbar() {
           <div className="searchbar">
             <Link to={"/search/" + user.username}>
               <button className="SearchButton">
-                <Search />
                 {user.username},Search for Users worldwide!
               </button>
             </Link>

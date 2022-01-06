@@ -65,7 +65,7 @@ html, .Login {
 .LoginInput:focus{
     outline: none;
 }
-.LoginButton{
+.LoginButton s{
     height: 50px;
     border-radius: 10px;
     border: none;
@@ -157,5 +157,32 @@ html, .Login {
 }
 
 * { box-sizing: border-box }
+
+@media only screen and (max-width: 800px) {
+  .LoginWrapper{
+    width: 100%;
+    height: 70%;
+  }
+  .LoginRight{
+    justify-content: flex-start;
+  }
+  .jt{
+    font-size: 18px;
+    position:initial;
+  }
+  .LoginInput{
+    height: 35px;
+    font-size: 14px;
+    width: 120px;
+    padding-left: 0px;
+  }
+  .LoginButton s{
+    font-size: 50px;
+  }
+  .LoginButton{
+    height: 39px;
+    font-size: 13px;
+  }
+}
 
 
