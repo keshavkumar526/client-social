@@ -3,6 +3,7 @@ import { useRef } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { UseFullPageLoading } from "../../components/loading/useFullPageLoading";
 
 export default function Register() {
   const username = useRef();
@@ -10,9 +11,11 @@ export default function Register() {
   const password = useRef();
   const passwordAgain = useRef();
   const navigate = useNavigate();
+  const [loader, loaderState, showLoader, hideLoader] = UseFullPageLoading();
 
   async function handleClick(e) {
     e.preventDefault();
+    showLoader();
     if (passwordAgain.current.value !== password.current.value) {
       passwordAgain.current.setCustomValidity("Passwords don't match");
     } else {
@@ -22,9 +25,14 @@ export default function Register() {
         password: password.current.value,
       };
       try {
-        await axios.post(process.env.REACT_APP_API_URL + "/auth/register", user);
+        await axios.post(
+          process.env.REACT_APP_API_URL + "/auth/register",
+          user
+        );
+        hideLoader();
         navigate("/login");
       } catch (err) {
+        hideLoader()
         console.log(err);
       }
     }
@@ -32,63 +40,79 @@ export default function Register() {
 
   return (
     <div className="Login">
-      <div className="LoginWrapper">
-        <div className="LoginLeft">
-          <h3 className="LoginLogo">Social Media App</h3>
-          <span class="jt --debug">
-            <span class="jt__row">
-              <span class="jt__text">Connect With Friends and the world around you on Social Media App!</span>
+      {loaderState ? (
+        loader
+      ) : (
+        <div className="LoginWrapper">
+          <div className="LoginLeft">
+            <h3 className="LoginLogo">Social Media App</h3>
+            <span class="jt --debug">
+              <span class="jt__row">
+                <span class="jt__text">
+                  Connect With Friends and the world around you on Social Media
+                  App!
+                </span>
+              </span>
+              <span class="jt__row jt__row--sibling" aria-hidden="true">
+                <span class="jt__text">
+                  Connect With Friends and the world around you on Social Media
+                  App!
+                </span>
+              </span>
+              <span class="jt__row jt__row--sibling" aria-hidden="true">
+                <span class="jt__text">
+                  Connect With Friends and the world around you on Social Media
+                  App!
+                </span>
+              </span>
+              <span class="jt__row jt__row--sibling" aria-hidden="true">
+                <span class="jt__text">
+                  Connect With Friends and the world around you on Social Media
+                  App!
+                </span>
+              </span>
             </span>
-            <span class="jt__row jt__row--sibling" aria-hidden="true">
-              <span class="jt__text">Connect With Friends and the world around you on Social Media App!</span>
-            </span>
-            <span class="jt__row jt__row--sibling" aria-hidden="true">
-              <span class="jt__text">Connect With Friends and the world around you on Social Media App!</span>
-            </span>
-            <span class="jt__row jt__row--sibling" aria-hidden="true">
-              <span class="jt__text">Connect With Friends and the world around you on Social Media App!</span>
-            </span>
-          </span>
+          </div>
+          <div className="LoginRight">
+            <form className="LoginBox" onSubmit={handleClick}>
+              <input
+                placeholder="Username"
+                ref={username}
+                required
+                type="text"
+                className="LoginInput"
+              />
+              <input
+                placeholder="Email"
+                ref={email}
+                required
+                type="email"
+                className="LoginInput"
+              />
+              <input
+                placeholder="Password"
+                type="password"
+                required
+                className="LoginInput"
+                ref={password}
+              />
+              <input
+                placeholder="Password Again"
+                ref={passwordAgain}
+                required
+                type="password"
+                className="LoginInput"
+              />
+              <button className="LoginButton s" type="submit">
+                Sign Up
+              </button>
+              <Link to="/login">
+                <button className="LoginButton">Log Into Your Account</button>
+              </Link>
+            </form>
+          </div>
         </div>
-        <div className="LoginRight">
-          <form className="LoginBox" onSubmit={handleClick}>
-            <input
-              placeholder="Username"
-              ref={username}
-              required
-              type="text"
-              className="LoginInput"
-            />
-            <input
-              placeholder="Email"
-              ref={email}
-              required
-              type="email"
-              className="LoginInput"
-            />
-            <input
-              placeholder="Password"
-              type="password"
-              required
-              className="LoginInput"
-              ref={password}
-            />
-            <input
-              placeholder="Password Again"
-              ref={passwordAgain}
-              required
-              type="password"
-              className="LoginInput"
-            />
-            <button className="LoginButton s" type="submit">
-              Sign Up
-            </button>
-            <Link to="/login">
-              <button className="LoginButton">Log Into Your Account</button>
-            </Link>
-          </form>
-        </div>
-      </div>
+      )}
     </div>
   );
 }

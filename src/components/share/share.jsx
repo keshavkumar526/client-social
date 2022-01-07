@@ -9,12 +9,14 @@ import {
 import { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
+import { UseFullPageLoading } from "../loading/useFullPageLoading";
 
 export default function Share() {
   const { user } = useContext(AuthContext);
   const [file, setFile] = useState(null);
   const [showShare, setShowShare] = useState(false);
   const desc = useRef();
+  const [loader, loaderState, showLoader, hideLoader] = UseFullPageLoading();
 
   useEffect(() => {
     const shareHandler = () => {
@@ -45,10 +47,12 @@ export default function Share() {
         console.log(err);
       }
     }
+    showLoader();
 
     try {
       await axios.post(process.env.REACT_APP_API_URL + "/posts", NewPost);
       window.location.reload();
+      hideLoader();
     } catch (err) {
       console.log(err);
     }
@@ -66,62 +70,70 @@ export default function Share() {
 
   return (
     <div className="share">
-      <div className="shareWrapper">
-        <div className="shareTop">
-          <img src={getProfilePic()} alt="" className="shareProfileImg" />
-          <input
-            placeholder={"What's In your Mind  " + user.username + "?"}
-            className="shareInput"
-            ref={desc}
-          />
-        </div>
-        <hr className="shareHr" />
-        {file && (
-          <div className="shareImgContainer">
-            <img src={URL.createObjectURL(file)} alt="" className="shareImg" />
-            <Cancel className="shareCancel" onClick={() => setFile(null)} />
+      {loaderState ? (
+        loader
+      ) : (
+        <div className="shareWrapper">
+          <div className="shareTop">
+            <img src={getProfilePic()} alt="" className="shareProfileImg" />
+            <input
+              placeholder={"What's In your Mind  " + user.username + "?"}
+              className="shareInput"
+              ref={desc}
+            />
           </div>
-        )}
-        <form className="shareBottom" onSubmit={submitHandler}>
-          <div className="shareOptions">
-            <label htmlFor="file" className="shareOption">
-              <PermMedia htmlColor="tomato" className="shareOptionIcon" />
-              <span className="shareOptionText">Photo or Video</span>
-              <input
-                id="file"
-                type="file"
-                accept=".png,.jpeg,.jpg"
-                onChange={(e) => setFile(e.target.files[0])}
-                style={{ display: "none" }}
+          <hr className="shareHr" />
+          {file && (
+            <div className="shareImgContainer">
+              <img
+                src={URL.createObjectURL(file)}
+                alt=""
+                className="shareImg"
               />
-            </label>
-            <div className="shareOption">
-              <Label htmlColor="blue" className="shareOptionIcon" />
-              <span className="shareOptionText p">Tag</span>
+              <Cancel className="shareCancel" onClick={() => setFile(null)} />
             </div>
-            <div className="shareOption">
-              <Room htmlColor="green" className="shareOptionIcon" />
-              <span className="shareOptionText">Location</span>
-            </div>
-            <div className="shareOption">
-              <EmojiEmotions
-                htmlColor="goldenrod"
-                className="shareOptionIcon"
-              />
-              <span className="shareOptionText">Feelings</span>
-            </div>
-          </div>
-          {showShare ? (
-            <button type="submit" className="shareButton">
-              Share
-            </button>
-          ) : (
-            <button type="submit" disabled className="shareButton">
-              Share
-            </button>
           )}
-        </form>
-      </div>
+          <form className="shareBottom" onSubmit={submitHandler}>
+            <div className="shareOptions">
+              <label htmlFor="file" className="shareOption">
+                <PermMedia htmlColor="tomato" className="shareOptionIcon" />
+                <span className="shareOptionText">Photo or Video</span>
+                <input
+                  id="file"
+                  type="file"
+                  accept=".png,.jpeg,.jpg"
+                  onChange={(e) => setFile(e.target.files[0])}
+                  style={{ display: "none" }}
+                />
+              </label>
+              <div className="shareOption">
+                <Label htmlColor="blue" className="shareOptionIcon" />
+                <span className="shareOptionText p">Tag</span>
+              </div>
+              <div className="shareOption">
+                <Room htmlColor="green" className="shareOptionIcon" />
+                <span className="shareOptionText">Location</span>
+              </div>
+              <div className="shareOption">
+                <EmojiEmotions
+                  htmlColor="goldenrod"
+                  className="shareOptionIcon"
+                />
+                <span className="shareOptionText">Feelings</span>
+              </div>
+            </div>
+            {showShare ? (
+              <button type="submit" className="shareButton">
+                Share
+              </button>
+            ) : (
+              <button type="submit" disabled className="shareButton">
+                Share
+              </button>
+            )}
+          </form>
+        </div>
+      )}
     </div>
   );
 }

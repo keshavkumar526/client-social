@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { Add, Remove, PermMedia } from "@mui/icons-material";
 import { useRef } from "react";
+import { UseFullPageLoading } from "../loading/useFullPageLoading";
 
 export default function RightBar({ user }) {
   const [friends, setFriends] = useState([]);
@@ -18,6 +19,8 @@ export default function RightBar({ user }) {
   const From = useRef();
   const Relationship = useRef();
   const Desc = useRef();
+
+  const [loader, loaderState, showLoader, hideLoader] = UseFullPageLoading();
 
   const [followed, setFollowed] = useState(
     curruntUser.following?.includes(user?.id)
@@ -65,7 +68,9 @@ export default function RightBar({ user }) {
     setFollowed(!followed);
   };
   const LogOutHandler = () => {
+    showLoader();
     sessionStorage.removeItem("user");
+    hideLoader();
     window.location.replace("/login");
   };
 
@@ -75,6 +80,7 @@ export default function RightBar({ user }) {
 
   const UpdateProfileHandler = () => {
     try {
+      showLoader();
       axios.put(process.env.REACT_APP_API_URL + "/users/" + user._id, {
         userId: curruntUser?._id,
         city: City.current.value,
@@ -82,6 +88,7 @@ export default function RightBar({ user }) {
         relationship: Relationship.current.value,
         desc: Desc.current.value,
       });
+      hideLoader();
       window.location.reload();
     } catch (err) {
       console.log(err);
@@ -104,11 +111,13 @@ export default function RightBar({ user }) {
       } catch (err) {
         console.log(err);
       }
+      showLoader();
       await axios.put(
         process.env.REACT_APP_API_URL + "/users/changeProfilePic/" + user._id,
         { pfName: profilePicName }
       );
-      window.location.reload()
+      hideLoader();
+      window.location.reload();
       setProfilePic(null);
     }
   };
@@ -154,114 +163,125 @@ export default function RightBar({ user }) {
   };
   const ProfileRightBar = () => {
     return (
-      <div className="pftop">
-        {user.username !== curruntUser.username && (
-          <button className="rightBarFollowButton" onClick={followHandler}>
-            {followed ? "Unfollow" : "Follow"}
-            {followed ? <Remove /> : <Add />}
-          </button>
-        )}
-        <h4 className="RightBarTitle">User Infomation</h4>
-        <div className="RightBarInfo">
-          <div className="RightBarInfoItem">
-            <span className="RightBarInfoKey">City:</span>
-            <span className="RightBarInfoValue">{user.city}</span>
-          </div>
-          <div className="RightBarInfoItem">
-            <span className="RightBarInfoKey">From:</span>
-            <span className="RightBarInfoValue">{user.from}</span>
-          </div>
-          <div className="RightBarInfoItem">
-            <span className="RightBarInfoKey">RelationShip:</span>
-            <span className="RightBarInfoValue">
-              {user.relationship === 0
-                ? "Single"
-                : user.relationship === 1
-                ? "Complicated"
-                : user.relationship === 2
-                ? "Married"
-                : "-"}
-            </span>
-          </div>
-          {curruntUser.username === user.username && (
-            <div className="updateContainer">
-              <button
-                className="userLogOutButton"
-                onClick={ShowUpdateComponent}
-              >
-                Change Your Profile
+      <div>
+        {loaderState ? (
+          loader
+        ) : (
+          <div className="pftop">
+            {user.username !== curruntUser.username && (
+              <button className="rightBarFollowButton" onClick={followHandler}>
+                {followed ? "Unfollow" : "Follow"}
+                {followed ? <Remove /> : <Add />}
               </button>
-              {isUpdate && (
-                <form className="updateForm" onSubmit={UpdateProfileHandler}>
-                  <input
-                    type="text"
-                    ref={City}
-                    required
-                    placeholder="City"
-                    className="inputUsername"
-                  />
-                  <input
-                    type="text"
-                    required
-                    ref={From}
-                    placeholder="From"
-                    className="inputUsername"
-                  />
-                  <input
-                    required
-                    type="text"
-                    ref={Relationship}
-                    placeholder="Relationship"
-                    className="inputUsername"
-                  />
-                  <input
-                    required
-                    type="text"
-                    ref={Desc}
-                    placeholder="Description"
-                    className="inputUsername"
-                  />
-                  <button type="submit" className="userLogOutButton">
-                    Update My Profile
-                  </button>
-                </form>
-              )}
-              <div className="pfContainer">
-                <label htmlFor="fileee">
-                  <span className="changeText">Choose photo</span>
-                  <input
-                    type="file"
-                    id="fileee"
-                    style={{ display: "none" }}
-                    accept=".png,.jpg,.jpeg"
-                    onChange={(e) => setProfilePic(e.target.files[0])}
-                  />
-                  <button className="changeButton" onClick={profileHandler}>
-                    Change Profile Pic
-                  </button>
-                </label>
+            )}
+            <h4 className="RightBarTitle">User Infomation</h4>
+            <div className="RightBarInfo">
+              <div className="RightBarInfoItem">
+                <span className="RightBarInfoKey">City:</span>
+                <span className="RightBarInfoValue">{user.city}</span>
               </div>
+              <div className="RightBarInfoItem">
+                <span className="RightBarInfoKey">From:</span>
+                <span className="RightBarInfoValue">{user.from}</span>
+              </div>
+              <div className="RightBarInfoItem">
+                <span className="RightBarInfoKey">RelationShip:</span>
+                <span className="RightBarInfoValue">
+                  {user.relationship === 0
+                    ? "Single"
+                    : user.relationship === 1
+                    ? "Complicated"
+                    : user.relationship === 2
+                    ? "Married"
+                    : "-"}
+                </span>
+              </div>
+              {curruntUser.username === user.username && (
+                <div className="updateContainer">
+                  <button
+                    className="userLogOutButton"
+                    onClick={ShowUpdateComponent}
+                  >
+                    Change Your Profile
+                  </button>
+                  {isUpdate && (
+                    <form
+                      className="updateForm"
+                      onSubmit={UpdateProfileHandler}
+                    >
+                      <input
+                        type="text"
+                        ref={City}
+                        required
+                        placeholder="City"
+                        className="inputUsername"
+                      />
+                      <input
+                        type="text"
+                        required
+                        ref={From}
+                        placeholder="From"
+                        className="inputUsername"
+                      />
+                      <input
+                        required
+                        type="text"
+                        ref={Relationship}
+                        placeholder="Relationship"
+                        className="inputUsername"
+                      />
+                      <input
+                        required
+                        type="text"
+                        ref={Desc}
+                        placeholder="Description"
+                        className="inputUsername"
+                      />
+                      <button type="submit" className="userLogOutButton">
+                        Update My Profile
+                      </button>
+                    </form>
+                  )}
+                  <div className="pfContainer">
+                    <label htmlFor="fileee">
+                      <span className="changeText">Choose photo</span>
+                      <input
+                        type="file"
+                        id="fileee"
+                        style={{ display: "none" }}
+                        accept=".png,.jpg,.jpeg"
+                        onChange={(e) => setProfilePic(e.target.files[0])}
+                      />
+                      <button className="changeButton" onClick={profileHandler}>
+                        Change Profile Pic
+                      </button>
+                    </label>
+                  </div>
+                </div>
+              )}
             </div>
-          )}
-        </div>
-        <h4 className="RightBarTitle">User Friends</h4>
-        <div className="RightBarFollowings">
-          {friends.map((friend) => (
-            <div className="RightBarFollowing">
-              <Link
-                to={"/profile/" + friend.username}
-                style={{ textDecoration: "none" }}
-              >
-                <img
-                  src={getProfilePic(friend)}
-                  alt=""
-                  className="RightBarFollowingImg"
-                />
-              </Link>
-              <span className="RightBarFollowingName">{friend.username}</span>
+            <h4 className="RightBarTitle">User Friends</h4>
+            <div className="RightBarFollowings">
+              {friends.map((friend) => (
+                <div className="RightBarFollowing">
+                  <Link
+                    to={"/profile/" + friend.username}
+                    style={{ textDecoration: "none" }}
+                  >
+                    <img
+                      src={getProfilePic(friend)}
+                      alt=""
+                      className="RightBarFollowingImg"
+                    />
+                  </Link>
+                  <span className="RightBarFollowingName">
+                    {friend.username}
+                  </span>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </div>
+        )}
       </div>
     );
   };
