@@ -27,6 +27,7 @@ export default function Post({ post }) {
     setIsLiked(post.likes.includes(username._id));
   }, [post.likes, username._id]);
 
+
   useEffect(() => {
     const fetchUser = async () => {
       const res = await axios.get(
@@ -90,13 +91,12 @@ export default function Post({ post }) {
       console.log(err);
     }
   };
-
   const getProfilePic = () => {
-    if (user.profilePicture === "") {
+    if (username.profilePicture === "") {
       return "/assets/person/noAvatar.png";
     } else {
       return (
-        process.env.REACT_APP_IMAGES_URL + "/images/post/" + user.profilePicture
+         username.profilePicture
       );
     }
   };
@@ -126,7 +126,7 @@ export default function Post({ post }) {
         <div className="postCenter">
           <span className="postText">{post?.desc}</span>
           <img
-            src={process.env.REACT_APP_IMAGES_URL + "/images/post/" + post.img}
+            src={post.img}
             alt=""
             className="postImg"
           />
@@ -135,7 +135,6 @@ export default function Post({ post }) {
           <div className="postBottomLeft">
             <div className="star-container">
               <FavoriteBorderIcon
-                style={{ fill: "red" }}
                 size="2em"
                 fontSize="inherit"
                 onClick={() => likeHandler(post._id)}
@@ -184,3 +183,12 @@ export default function Post({ post }) {
     </div>
   );
 }
+
+// "scripts": {
+//   "dev": "react-scripts start",
+//   "start": "serve -s build",
+//   "build": "react-scripts build",
+//   "test": "react-scripts test --env=jsdom",
+//   "eject": "react-scripts eject",
+//   "heroku-postbuild": "npm run build"
+// },

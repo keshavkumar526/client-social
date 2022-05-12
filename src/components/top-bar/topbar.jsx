@@ -12,7 +12,7 @@ export default function Topbar() {
       return "/assets/person/noAvatar.png";
     } else {
       return (
-        process.env.REACT_APP_IMAGES_URL + "/images/post/" + user.profilePicture
+         user.profilePicture
       );
     }
   };

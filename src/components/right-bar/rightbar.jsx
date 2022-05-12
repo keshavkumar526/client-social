@@ -96,29 +96,69 @@ export default function RightBar({ user }) {
     setIsUpdate(!isUpdate);
   };
 
+  // const profileHandler = async (e) => {
+  //   e.preventDefault();
+  //   if (profilePic) {
+  //     const profilePicData = new FormData();
+  //     const profilePicName = profilePic.name;
+  //     profilePicData.append("profilePic", profilePic);
+  //     profilePicData.append("profilePicName", profilePicName);
+  //     try {
+  //       await axios.post(
+  //         process.env.REACT_APP_API_URL + "/uploadProfilePic",
+  //         profilePicData
+  //       );
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //     showLoader();
+  //     await axios.put(
+  //       process.env.REACT_APP_API_URL + "/users/changeProfilePic/" + user._id,
+  //       { pfName: profilePicName }
+  //     );
+  //     hideLoader();
+  //     window.location.reload();
+  //     setProfilePic(null);
+  //   }
+  // };
+
   const profileHandler = async (e) => {
     e.preventDefault();
-    if (profilePic) {
-      const profilePicData = new FormData();
-      const profilePicName = profilePic.name;
-      profilePicData.append("profilePic", profilePic);
-      profilePicData.append("profilePicName", profilePicName);
-      try {
-        await axios.post(
-          process.env.REACT_APP_API_URL + "/uploadProfilePic",
-          profilePicData
-        );
-      } catch (err) {
-        console.log(err);
-      }
+    let url;
+    if (!profilePic) return;
+    const reader = new FileReader();
+    reader.readAsDataURL(profilePic);
+    url = await uploadImage(reader.result);
+    try {
       showLoader();
       await axios.put(
         process.env.REACT_APP_API_URL + "/users/changeProfilePic/" + user._id,
-        { pfName: profilePicName }
+        { pfName: url }
       );
       hideLoader();
       window.location.reload();
       setProfilePic(null);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const uploadImage = async (base64EncodedImage) => {
+    try {
+      const data = new FormData();
+      data.append("file", profilePic);
+      data.append("upload_preset", "myfolder");
+      const res = await fetch(
+        "https://api.cloudinary.com/v1_1/dgzbiek2i/image/upload",
+        {
+          method: "POST",
+          body: data,
+        }
+      );
+      const file = await res.json();
+      return file.url;
+    } catch (err) {
+      console.error(err);
     }
   };
 

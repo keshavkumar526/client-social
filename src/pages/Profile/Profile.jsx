@@ -22,12 +22,11 @@ export default function Profile() {
   }, [username]);
 
   const getProfilePic = () => {
-    console.log(user.profilePicture);
     if (user.profilePicture === "") {
       return "/assets/person/noAvatar.png";
     } else {
       return (
-        process.env.REACT_APP_IMAGES_URL + "/images/post/" + user.profilePicture
+        user.profilePicture
       );
     }
   };
