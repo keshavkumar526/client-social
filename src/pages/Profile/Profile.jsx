@@ -10,6 +10,7 @@ import { useParams } from "react-router";
 export default function Profile() {
   const [user, setUser] = useState(false);
   const username = useParams().username;
+  const [isProfile, setIsProfile] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -21,13 +22,15 @@ export default function Profile() {
     fetchUser();
   }, [username]);
 
+  useEffect(() => {
+    setIsProfile(true);
+  }, []);
+
   const getProfilePic = () => {
     if (user.profilePicture === "") {
       return "/assets/person/noAvatar.png";
     } else {
-      return (
-        user.profilePicture
-      );
+      return user.profilePicture;
     }
   };
 
@@ -52,7 +55,7 @@ export default function Profile() {
             </div>
           </div>
           <div className="ProfileRightBottom">
-            <Feed username={username} />
+            <Feed username={username} isProfile={isProfile} />
             <RightBar user={user} />
           </div>
         </div>
