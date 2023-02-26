@@ -7,7 +7,7 @@ import { AuthContext } from "../../context/AuthContext";
 import DummyFeed from "../dummyFeed/dummyFeeed";
 import { Users } from "../../dummyData";
 
-export default function Feed({ username, isProfile }) {
+export default function Feed({ username }) {
   const [posts, setPosts] = useState([]);
   const { user } = useContext(AuthContext);
 
@@ -28,12 +28,11 @@ export default function Feed({ username, isProfile }) {
     };
     fetchPosts();
   }, [username, user]);
-  console.log(isProfile);
 
   return (
     <div className="Feed">
       {(!username || username === user?.username) && <Share />}
-      <div className="Feedddd" >
+      <div className="Feedddd">
         {posts.map((p) => (
           <Post key={p.id} post={p} />
         ))}
