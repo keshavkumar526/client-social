@@ -15,7 +15,7 @@ export default function Profile() {
   useEffect(() => {
     const fetchUser = async () => {
       const res = await axios.get(
-        process.env.REACT_APP_API_URL + `/users?username=${username}`
+        `https://api-social-tzy4.onrender.com/api/users?username=${username}`
       );
       setUser(res.data);
     };

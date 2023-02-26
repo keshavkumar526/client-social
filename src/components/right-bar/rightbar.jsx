@@ -30,7 +30,7 @@ export default function RightBar({ user }) {
     const getFriends = async () => {
       try {
         const friendsList = await axios.get(
-          process.env.REACT_APP_API_URL + "/users/getUser/" + user._id
+          "https://api-social-tzy4.onrender.com/api/users/getUser/" + user._id
         );
         setFriends(friendsList.data);
       } catch (err) {
@@ -46,7 +46,9 @@ export default function RightBar({ user }) {
     try {
       if (followed) {
         await axios.put(
-          process.env.REACT_APP_API_URL + "/users/" + user._id + "/unfollow",
+          "https://api-social-tzy4.onrender.com/api/users/" +
+            user._id +
+            "/unfollow",
           {
             userId: curruntUser._id,
           }
@@ -54,7 +56,9 @@ export default function RightBar({ user }) {
         dispatch({ type: "UNFOLLOW", payload: user._id });
       } else {
         await axios.put(
-          process.env.REACT_APP_API_URL + "/users/" + user._id + "/follow",
+          "https://api-social-tzy4.onrender.com/api/users/" +
+            user._id +
+            "/follow",
           {
             userId: curruntUser._id,
           }
@@ -81,7 +85,7 @@ export default function RightBar({ user }) {
   const UpdateProfileHandler = () => {
     try {
       showLoader();
-      axios.put(process.env.REACT_APP_API_URL + "/users/" + user._id, {
+      axios.put("https://api-social-tzy4.onrender.com/api/users/" + user._id, {
         userId: curruntUser?._id,
         city: City.current.value,
         from: From.current.value,
@@ -132,7 +136,8 @@ export default function RightBar({ user }) {
     try {
       showLoader();
       await axios.put(
-        process.env.REACT_APP_API_URL + "/users/changeProfilePic/" + user._id,
+        "https://api-social-tzy4.onrender.com/api/users/changeProfilePic/" +
+          user._id,
         { pfName: url }
       );
       hideLoader();
@@ -166,9 +171,7 @@ export default function RightBar({ user }) {
     if (friend.profilePicture === "") {
       return "/assets/person/noAvatar.png";
     } else {
-      return (
-        friend.profilePicture
-      );
+      return friend.profilePicture;
     }
   };
 
@@ -177,7 +180,7 @@ export default function RightBar({ user }) {
       <>
         <div className="birthdayContainer">
           <img
-            src={process.env.REACT_APP_IMAGES_URL + "/images/post/gift.png"}
+            src={"https://api-social-tzy4.onrender.com/images/post/gift.png"}
             alt=""
             className="birthdayImg"
           />
@@ -186,7 +189,7 @@ export default function RightBar({ user }) {
           </span>
         </div>
         <img
-          src={process.env.REACT_APP_IMAGES_URL + "/images/post/ad.png"}
+          src={"https://api-social-tzy4.onrender.com/images/post/ad.png"}
           alt=""
           className="rightBarAdd"
         />

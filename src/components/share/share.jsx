@@ -62,7 +62,10 @@ export default function Share() {
       img: url,
     };
     try {
-      await axios.post(process.env.REACT_APP_API_URL + "/posts", NewPost);
+      await axios.post(
+        "https://api-social-tzy4.onrender.com/api/posts",
+        NewPost
+      );
       window.location.reload();
       hideLoader();
     } catch (err) {
@@ -140,9 +143,7 @@ export default function Share() {
     if (user.profilePicture === "") {
       return "/assets/person/noAvatar.png";
     } else {
-      return (
-         user.profilePicture
-      );
+      return user.profilePicture;
     }
   };
 

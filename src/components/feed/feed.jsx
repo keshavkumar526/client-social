@@ -15,10 +15,11 @@ export default function Feed({ username, isProfile }) {
     const fetchPosts = async () => {
       const res = username
         ? await axios.get(
-            process.env.REACT_APP_API_URL + "/posts/profile/" + username
+            "https://api-social-tzy4.onrender.com/api/posts/profile/" + username
           )
         : await axios.get(
-            process.env.REACT_APP_API_URL + "/posts/timeline/" + user._id
+            "https://api-social-tzy4.onrender.com/api/posts/timeline/" +
+              user._id
           );
       setPosts(
         res.data.sort((p1, p2) => {
@@ -33,7 +34,7 @@ export default function Feed({ username, isProfile }) {
   return (
     <div className="Feed">
       {(!username || username === user?.username) && <Share />}
-      <div className="Feedddd" >
+      <div className="Feedddd">
         {posts.map((p) => (
           <Post key={p.id} post={p} />
         ))}

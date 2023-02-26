@@ -11,8 +11,7 @@ function MyCommentModal({ post, toggleModal, isOpen }) {
     const MyCommentModalHandler = async () => {
       try {
         const response = await axios.get(
-          process.env.REACT_APP_API_URL +
-            "/comments/" +
+          "https://api-social-tzy4.onrender.com/api/comments/" +
             post._id +
             "/getComment"
         );
@@ -24,15 +23,11 @@ function MyCommentModal({ post, toggleModal, isOpen }) {
     if (isOpen) {
       MyCommentModalHandler();
     }
-  }, [isOpen,post._id]);
+  }, [isOpen, post._id]);
 
   return (
     <div>
-      <Modal
-        show={isOpen}
-        onHide={toggleModal}
-        animation={false}
-      >
+      <Modal show={isOpen} onHide={toggleModal} animation={false}>
         <Modal.Header>
           <Modal.Title>Comments</Modal.Title>
         </Modal.Header>

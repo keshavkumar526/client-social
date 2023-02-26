@@ -18,7 +18,7 @@ export default function Search() {
     } else {
       setSearch(e.target.value);
       const response = await axios.post(
-        process.env.REACT_APP_API_URL + "/posts/search/",
+        "https://api-social-tzy4.onrender.com/api/posts/search/",
         {
           searchItem: e.target.value,
         }
@@ -36,7 +36,8 @@ export default function Search() {
       return "/assets/person/noAvatar.png";
     } else {
       return (
-        process.env.REACT_APP_IMAGES_URL + "/images/post/" + user.profilePicture
+        "https://api-social-tzy4.onrender.com/images/post/" +
+        user.profilePicture
       );
     }
   };
@@ -46,7 +47,7 @@ export default function Search() {
       return "/assets/person/noAvatar.png";
     } else {
       return (
-        process.env.REACT_APP_IMAGES_URL + "/images/post/" + d.profilePicture
+        "https://api-social-tzy4.onrender.com/images/post/" + d.profilePicture
       );
     }
   };

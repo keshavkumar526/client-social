@@ -27,11 +27,10 @@ export default function Post({ post }) {
     setIsLiked(post.likes.includes(username._id));
   }, [post.likes, username._id]);
 
-
   useEffect(() => {
     const fetchUser = async () => {
       const res = await axios.get(
-        process.env.REACT_APP_API_URL + `/users?userId=${post.userId}`
+        `https://api-social-tzy4.onrender.com/api/users?userId=${post.userId}`
       );
       setUser(res.data);
     };
@@ -48,7 +47,9 @@ export default function Post({ post }) {
   const commentModalHandler = async (e) => {
     e.preventDefault();
     await axios.put(
-      process.env.REACT_APP_API_URL + "/comments/" + post._id + "/comment",
+      "https://api-social-tzy4.onrender.com/api/comments/" +
+        post._id +
+        "/comment",
       { comment: postComment, userId: username?._id }
     );
     setPostComment("");
@@ -60,14 +61,14 @@ export default function Post({ post }) {
 
   const likeHandler = async (id) => {
     await axios.put(
-      process.env.REACT_APP_API_URL + "/posts/" + post._id + "/like",
+      "https://api-social-tzy4.onrender.com/api/posts/" + post._id + "/like",
       { userId: username?._id }
     );
 
     setLike(isLiked ? like - 1 : like + 1);
     setIsLiked(!isLiked);
     const response = await axios.post(
-      process.env.REACT_APP_API_URL + "/posts/show/",
+      "https://api-social-tzy4.onrender.com/api/posts/show/",
       {
         showItem: id,
       }
@@ -81,7 +82,9 @@ export default function Post({ post }) {
   const postDeleteHandler = async () => {
     try {
       await axios.post(
-        process.env.REACT_APP_API_URL + "/posts/" + post.userId + "/delete",
+        "https://api-social-tzy4.onrender.com/api/posts/" +
+          post.userId +
+          "/delete",
         {
           userId: username?._id,
         }
@@ -95,9 +98,7 @@ export default function Post({ post }) {
     if (username.profilePicture === "") {
       return "/assets/person/noAvatar.png";
     } else {
-      return (
-         username.profilePicture
-      );
+      return username.profilePicture;
     }
   };
 
@@ -125,11 +126,7 @@ export default function Post({ post }) {
         </div>
         <div className="postCenter">
           <span className="postText">{post?.desc}</span>
-          <img
-            src={post.img}
-            alt=""
-            className="postImg"
-          />
+          <img src={post.img} alt="" className="postImg" />
         </div>
         <div className="postBottom">
           <div className="postBottomLeft">

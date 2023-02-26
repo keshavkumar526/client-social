@@ -26,13 +26,13 @@ export default function Register() {
       };
       try {
         await axios.post(
-          process.env.REACT_APP_API_URL + "/auth/register",
+          "https://api-social-tzy4.onrender.com/api/auth/register",
           user
         );
         hideLoader();
         navigate("/login");
       } catch (err) {
-        hideLoader()
+        hideLoader();
         console.log(err);
       }
     }

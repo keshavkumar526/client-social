@@ -12,7 +12,7 @@ function MySearchModal(props) {
           <img
             src={
               props.profilePicture ||
-              process.env.REACT_APP_IMAGES_URL + "/images/person/noAvatar.png"
+              "https://api-social-tzy4.onrender.com/images/person/noAvatar.png"
             }
             alt=""
             className="postProfileImg"

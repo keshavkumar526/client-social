@@ -20,7 +20,7 @@ export default function Login() {
     dispatch({ type: "LOGIN_START" });
     try {
       const res = await axios.post(
-        process.env.REACT_APP_API_URL + "/auth/login",
+        "https://api-social-tzy4.onrender.com/api/auth/login",
         { email: email.current.value, password: password.current.value }
       );
       setShow(false);
@@ -28,7 +28,7 @@ export default function Login() {
       sessionStorage.setItem("user", JSON.stringify(res.data));
     } catch (err) {
       dispatch({ type: "LOGIN_FAILURE", payload: err });
-      setShow(false)
+      setShow(false);
       setErrMsg(err.response?.data);
     }
   };
